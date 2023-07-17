@@ -16,11 +16,8 @@ export async function getAllHotels(userId: number) {
 
   if (!hotels[0]) throw notFoundError();
 
-  if (ticket.status !== 'PAID') throw paymentRequiredError();
-
-  if (ticket.TicketType.isRemote === true) throw paymentRequiredError();
-
-  if (!ticket.TicketType.includesHotel) throw paymentRequiredError();
+  if (ticket.status !== 'PAID' || ticket.TicketType.isRemote || !ticket.TicketType.includesHotel)
+    throw paymentRequiredError();
 
   return hotels;
 }
@@ -38,11 +35,8 @@ export async function getHotelById(hotelId: number, userId: number) {
 
   if (!hotel) throw notFoundError();
 
-  if (ticket.status !== 'PAID') throw paymentRequiredError();
-
-  if (ticket.TicketType.isRemote === true) throw paymentRequiredError();
-
-  if (!ticket.TicketType.includesHotel) throw paymentRequiredError();
+  if (ticket.status !== 'PAID' || ticket.TicketType.isRemote || !ticket.TicketType.includesHotel)
+    throw paymentRequiredError();
 
   return hotel;
 }
