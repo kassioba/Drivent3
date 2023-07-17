@@ -4,7 +4,7 @@ import faker from '@faker-js/faker';
 import * as jwt from 'jsonwebtoken';
 import { cleanDb, generateValidToken } from '../helpers';
 import { createEnrollmentWithAddress, createTicket, createTicketType, createUser } from '../factories';
-import { createHotel } from '../factories/hotels-factory';
+import { createHotel, createRoom } from '../factories/hotels-factory';
 import app, { init } from '@/app';
 
 beforeAll(async () => {
@@ -245,6 +245,8 @@ describe('GET /hotels/:hotelId', () => {
       const ticketType = await createTicketType(false, true);
       await createTicket(enrollment.id, ticketType.id, 'PAID');
       const hotel = await createHotel();
+      await createRoom(hotel.id);
+      await createRoom(hotel.id);
 
       const { status, body } = await server.get(`/hotels/${hotel.id}`).set('Authorization', `Bearer ${token}`);
 
